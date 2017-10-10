@@ -9,11 +9,11 @@ class diamond::install {
     case $::osfamily {
       'RedHat': {
         include epel
-        ensure_resource('package', 'python-pip', {'ensure' => 'present', 'before' => Package['diamond'], 'require' => Yumrepo['epel']})
-        ensure_resource('package', ['python-configobj','gcc','python-devel'], {'ensure' => 'present', 'before' => Package['diamond'], 'require' => Package['python-pip']})
+        ensure_resource('package', 'python2-pip', {'ensure' => 'present', 'before' => Package['diamond'], 'require' => Yumrepo['epel']})
+        ensure_resource('package', ['python-configobj','gcc','python-devel'], {'ensure' => 'present', 'before' => Package['diamond'], 'require' => Package['python2-pip']})
       }
       /^(Debian|Ubuntu)$/: {
-        ensure_resource('package', ['python-pip','python-configobj','gcc','python-dev'], {'ensure' => 'present', 'before' => Package['diamond']})
+        ensure_resource('package', ['python2-pip','python-configobj','gcc','python-dev'], {'ensure' => 'present', 'before' => Package['diamond']})
       }
       'Solaris': {
         case $::kernelrelease {
@@ -118,13 +118,13 @@ class diamond::install {
   }
 
   if $diamond::librato_user and $diamond::librato_apikey {
-    ensure_packages(['python-pip'])
-    ensure_resource('package', 'librato-metrics', {'ensure' => 'present', 'provider' => pip, 'before' => Package['python-pip']})
+    ensure_packages(['python2-pip'])
+    ensure_resource('package', 'librato-metrics', {'ensure' => 'present', 'provider' => pip, 'before' => Package['python2-pip']})
   }
 
   if $diamond::riemann_host {
-    ensure_packages(['python-pip'])
-    ensure_resource('package', 'bernhard', {'ensure' => 'present', 'provider' => pip, 'before' => Package['python-pip']})
+    ensure_packages(['python2-pip'])
+    ensure_resource('package', 'bernhard', {'ensure' => 'present', 'provider' => pip, 'before' => Package['python2-pip']})
   }
 
 }
